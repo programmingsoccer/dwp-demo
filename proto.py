@@ -41,7 +41,9 @@ class Window:
         self.ccontext.set_source_rgb(255, 255, 255)
         self.ccontext.fill()
 
-         
+    def draw(self):
+        self.pcontext = pangocairo.CairoContext(self.context);
+        # oof unfinished
 
 sessions = []
 sessions.append(Terminal())
