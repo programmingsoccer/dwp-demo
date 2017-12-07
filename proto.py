@@ -16,7 +16,7 @@ class Row:
 class RichRow(Row):
     """A class for rows of rich text"""
 
-class Window:
+class Terminal:
     """A class that defines an instance of a terminal"""
     size = 400,400
     def __init__(self):
@@ -41,9 +41,15 @@ class Window:
         self.ccontext.set_source_rgb(255, 255, 255)
         self.ccontext.fill()
 
-    def draw(self):
-        self.pcontext = pangocairo.CairoContext(self.context);
-        # oof unfinished
+        # Print text to the screen
+        self.pcontext = pangocairo.CairoContext(self.ccontext)
+        self.playout  = self.pcontext.create_layout()
+        self.pfont    = pango.FontDescription("Sans 25")
+        self.playout.set_font_description(self.pfont)
+        self.playout.set_text("hello world")
+        self.ccontext.set_source_rgb(0, 0, 0)
+        self.pcontext.update_layout(self.playout)
+        self.pcontext.show_layout(self.playout)
 
 sessions = []
 sessions.append(Terminal())
