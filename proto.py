@@ -8,13 +8,13 @@ import subprocess
 
 pygame.init()
 
-class Row:
-    """A class for rows of typical terminal text"""
-    def __init__(self, instr):
-        self.str = instr
-
-class RichRow(Row):
-    """A class for rows of rich text"""
+#class Row:
+#    """A class for rows of typical terminal text"""
+#    def __init__(self, instr):
+#        self.str = instr
+#
+#class RichRow(Row):
+#    """A class for rows of rich text"""
 
 class Terminal:
     """A class that defines an instance of a terminal"""
@@ -44,9 +44,24 @@ class Terminal:
         # Print text to the screen
         self.pcontext = pangocairo.CairoContext(self.ccontext)
         self.playout  = self.pcontext.create_layout()
-        self.pfont    = pango.FontDescription("Sans 25")
+        self.pfont    = pango.FontDescription("Mono 12")
         self.playout.set_font_description(self.pfont)
         self.playout.set_text("hello world")
+        self.ccontext.set_source_rgb(0, 0, 0)
+        self.pcontext.update_layout(self.playout)
+        self.pcontext.show_layout(self.playout)
+
+    def open(self, location):
+        self.file = open("~/dynamic-text.txt")
+
+    def readBlitRoutine(self, val):
+        # Make a background rectangle
+        self.ccontext.rectangle(0, 0, self.size[0], self.size[1])
+        self.ccontext.set_source_rgb(255, 255, 255)
+        self.ccontext.fill()
+        
+        # Print text to the screen
+        self.playout.set_text(str(val))
         self.ccontext.set_source_rgb(0, 0, 0)
         self.pcontext.update_layout(self.playout)
         self.pcontext.show_layout(self.playout)
@@ -58,8 +73,12 @@ sessions.append(Terminal())
 #pygame.display.flip()
 
 # Wait for the user to quit.
+i = 0
+
 while pygame.QUIT not in [e.type for e in pygame.event.get()]:
     pygame.display.flip();
     for session in sessions:
+        i += 1
         print(session.size)
+        session.readBlitRoutine(i);
 
