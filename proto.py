@@ -18,7 +18,7 @@ pygame.init()
 
 class Terminal:
     """A class that defines an instance of a terminal"""
-    size = 400,400
+    size = 600,400
     def __init__(self):
         # Initialize pygame with 32-bit colors. This setting stores the pixels
         # in the format 0x00rrggbb.
@@ -51,8 +51,8 @@ class Terminal:
         self.pcontext.update_layout(self.playout)
         self.pcontext.show_layout(self.playout)
 
-    def open(self, location):
-        self.file = open("~/dynamic-text.txt")
+    def open(self):
+        self.file = open("/home/u669373/dynamic-text.txt")
 
     def readBlitRoutine(self, val):
         # Make a background rectangle
@@ -61,14 +61,14 @@ class Terminal:
         self.ccontext.fill()
         
         # Print text to the screen
-        self.playout.set_text(str(val))
-        self.ccontext.set_source_rgb(0, 0, 0)
-        self.pcontext.update_layout(self.playout)
-        self.pcontext.show_layout(self.playout)
+        self.playout.set_text(self.file.readline())             # NOTE TO SELF
+        self.ccontext.set_source_rgb(0, 0, 0)       # readBlitRoutine should be renamed to blitRoutine, and
+        self.pcontext.update_layout(self.playout)   # additional functions should be made to parse the incoming
+        self.pcontext.show_layout(self.playout)     # swarm of stdout terminal data.
 
 sessions = []
 sessions.append(Terminal())
-
+sessions[0].open();
 # Flip the changes into view.
 #pygame.display.flip()
 
@@ -82,3 +82,4 @@ while pygame.QUIT not in [e.type for e in pygame.event.get()]:
         print(session.size)
         session.readBlitRoutine(i);
 
+  
