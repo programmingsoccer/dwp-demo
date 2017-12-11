@@ -51,8 +51,19 @@ class Terminal:
         self.pcontext.update_layout(self.playout)
         self.pcontext.show_layout(self.playout)
 
+        # Make an array of strings as a buffer to tactically store text in
+        self.buffer = ["oof", "ouch", "ow", "my bones"]
+
     def open(self):
         self.file = open("/home/u669373/dynamic-text.txt")
+        self.buffer.extend(self.file.read().split("\n"))
+        self.file.close()
+
+    def queueBuffer(self, buf):
+        bufferCompo = ""
+        for stringInstance in buf:
+            bufferCompo = bufferCompo + "\n" + stringInstance
+        return bufferCompo
 
     def readBlitRoutine(self, val):
         # Make a background rectangle
@@ -61,7 +72,7 @@ class Terminal:
         self.ccontext.fill()
         
         # Print text to the screen
-        self.playout.set_text(self.file.readline())             # NOTE TO SELF
+        self.playout.set_text(self.queueBuffer(self.buffer))             # NOTE TO SELF
         self.ccontext.set_source_rgb(0, 0, 0)       # readBlitRoutine should be renamed to blitRoutine, and
         self.pcontext.update_layout(self.playout)   # additional functions should be made to parse the incoming
         self.pcontext.show_layout(self.playout)     # swarm of stdout terminal data.
