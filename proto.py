@@ -52,12 +52,14 @@ class Terminal:
         self.pcontext.show_layout(self.playout)
 
         # Make an array of strings as a buffer to tactically store text in
-        self.buffer = ["oof", "ouch", "ow", "my bones"]
+        self.buffer = []
 
     def open(self):
-        self.file = open("/home/u669373/dynamic-text.txt")
-        self.buffer.extend(self.file.read().split("\n"))
-        self.file.close()
+        #self.file = open("/home/u669373/dynamic-text.txt")
+        #self.buffer.extend(self.file.read().split("\n"))
+        #self.file.close()
+        self.buffer.extend(subprocess.check_output(["ls", "-l"]).split("\n"))
+
 
     def queueBuffer(self, buf):
         bufferCompo = ""
